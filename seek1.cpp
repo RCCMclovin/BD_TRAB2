@@ -1,5 +1,6 @@
 #include "b+tree/int/b+tree.hpp"
 #include "b+tree/string/b+tree_str.hpp"
+#include "hash/hash_table.hpp"
 
 
 #define RECORD_BLOCK 2
