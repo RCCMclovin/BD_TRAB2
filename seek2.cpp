@@ -1,6 +1,7 @@
 #include "b+tree/string/b+tree_str.hpp"
 #include <string.h>
 
+#include "hash/hash_table.hpp"
 #define RECORD_BLOCK 2
 
 typedef b_plus_tree_str_t b_plus_tree_s_t;
