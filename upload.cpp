@@ -48,9 +48,11 @@ void read_record_file(char* path){
         if(i < RECORD_BLOCK){
             while(i < RECORD_BLOCK){
                 aux.records[i].id = -1;
+                i++;
             }
         }
         fwrite(&aux,BLOCK_SIZE, 1, out);
+
         blk++;
     }
     fclose(arq);
