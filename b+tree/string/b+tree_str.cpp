@@ -216,9 +216,11 @@ static int binary_search(alfa_300_t* array, int n, string key){
 	int e = -1, d = n;
    	while (e < d-1) { 
       int m = (e + d)/2;
-      if (string(array[m].str) < key) e = m;
+	  cout<<string(array[m].str)<<"\n";
+	  cout<<string(array[m].str).compare(key)<<"\n";
+      if (string(array[m].str).compare(key)<-1) e = m;
       else {
-      	if(string(array[m].str) == key) return m;
+      	if(string(array[m].str).compare(key)>=-1 && string(array[m].str).compare(key)<=1) return m;
       	d = m;
       }
    }
@@ -403,7 +405,7 @@ int search_key(b_plus_tree_str_t* tree, string key){
   int count_blocks_read = 1; // o nó raiz já foi lido previamente
 	while(aux->is_leaf == false){
 		i = binary_search(aux->keys, aux->n, key);
-		if(key < string(aux->keys[i].str)){
+		if(key.compare(string(aux->keys[i].str))<-1){
 			aux = read_node(*tree,aux->pointers[i]);
 		}else{
 			aux = read_node(*tree,aux->pointers[i+1]);
@@ -412,7 +414,7 @@ int search_key(b_plus_tree_str_t* tree, string key){
 	}
   i = binary_search(aux->keys, aux->n, key);
   fclose(tree->index_file);
-	if(key == string(aux->keys[i].str)){
+	if(key.compare(string(aux->keys[i].str))>=-1 && key.compare(string(aux->keys[i].str))<=1){
     printf("Quantidade de blocos lidos: %d\n", count_blocks_read);
     return aux->pointers[i];
   }else{

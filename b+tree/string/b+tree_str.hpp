@@ -1,6 +1,7 @@
 #ifndef B_PLUS_TREE_STR_HPP
 #define B_PLUS_TREE_STR_HPP
-
+#include <string>
+#include <stdio.h>
 #include "node.hpp"
 #include "entry.hpp"
 #include <iostream>

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <queue>
 #include <string>
+#include <cstdio>
 
 #include "node.hpp"
 #include "entry.hpp"

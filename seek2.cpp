@@ -23,11 +23,14 @@ int main(int argc, char* argv[]){
         return 1;
     }
     string title = argv[1];
-    FILE* arq = fopen("B+TREE_INT.txt", "r");
+    printf("Procurando por: \"");
+    cout<<title;
+    printf("\"\n");
+    FILE* arq = fopen("B+TREE_STR.txt", "r");
     fseek(arq,0,SEEK_END);
     int total = ftell(arq)/BLOCK_SIZE;
     if(total < 0){
-        printf("Erro de leitura!\n");
+        printf("Erro de leitura!1\n");
         return 1;
     }
     fclose(arq);
@@ -35,26 +38,32 @@ int main(int argc, char* argv[]){
     string b = "B+TREE_STR.txt";
     b_plus_tree_s_t* tree = load_b_plus_tree_str(a, b);
     int r = search_key(tree,title);
-    printf("Quantidade de blocos no arquivo de dados: %d\n", total);
-    record_t result;
-    result.id = -1;
-    arq = fopen("records.txt", "r");
-    int err = fseek(arq,r*BLOCK_SIZE,SEEK_SET);
-    if(err){
-        printf("Erro de leitura!\n");
-        return 1;
+    if(r!=-1){
+        printf("Quantidade de blocos no arquivo de dados: %d\n", total);
+        record_t result;
+        result.id = -1;
+        arq = fopen("records.txt", "r");
+        int err = fseek(arq,r*BLOCK_SIZE,SEEK_SET);
+        if(err){
+            printf("Erro de leitura!2\n");
+            return 1;
+        }
+        block_t block;
+        err = fread(&block, BLOCK_SIZE, 1, arq);
+        if(err != 1){
+            printf("Erro de leitura!3\n");
+            return 1;
+        }
+        for(int i = 0; i < RECORD_BLOCK; i++){
+            if(string(block.records[i].title).compare(title)>=-1 && string(block.records[i].title).compare(title)<=1) {
+                printf("Registro encontrado:\nID: %d\nTitulo: %s\nAno: %d\nAutores: %s\nCitacoes: %d\nAtualizacao: %s\nSnippet: %s\n",
+                block.records[i].id, block.records[i].title, block.records[i].year, block.records[i].authors, block.records[i].citations, block.records[i].update, block.records[i].snippet);
+                return 0;
+            }
+        }
     }
-    block_t block;
-    err = fread(&block, BLOCK_SIZE, 1, arq);
-    if(err != 1){
-        printf("Erro de leitura!\n");
-        return 1;
-    }
-    for(int i = 0; i < RECORD_BLOCK; i++) if(block.records[i].title == title) {
-        printf("Registro encontrado:\nID: %d\nTitulo: %s\nAno: %d\nAutores: %s\nCitacoes: %d\nAtualizacao: %s\nSnippet: %s\n",
-        block.records[i].id, block.records[i].title, block.records[i].year, block.records[i].authors, block.records[i].citations, block.records[i].update, block.records[i].snippet);
-        return 0;
-    }
+    else{
     printf("Registro não encontrado.\n");
+    }
     return 0;
 }
